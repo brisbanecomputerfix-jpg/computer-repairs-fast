@@ -1,0 +1,16 @@
+# System & Cache
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Temp inspection scripts & profiles
+scripts/test_*
+scripts/inspect_*
+scripts/debug_*
+scripts/shot_*
+scripts/verify_*.js
+scripts/find_*.js

@@ -1,0 +1,141 @@
+# ==============================================================================
+# Hostinger Redirection & Local SEO Optimization for Computer Repairs Fast
+# Primary Canonical: https://computerrepairsfast.com.au
+# ==============================================================================
+
+# Custom 404 Emergency Error Page
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# 1. Enforce HTTPS & Canonical Domain (computerrepairsfast.com.au)
+# If traffic comes to computerrepairsfast.com, permanently 301 redirect to .com.au
+RewriteCond %{HTTP_HOST} ^(www\.)?computerrepairsfast\.com$ [NC]
+RewriteRule ^(.*)$ https://computerrepairsfast.com.au/$1 [R=301,L]
+
+# Enforce Non-WWW on .com.au
+RewriteCond %{HTTP_HOST} ^www\.computerrepairsfast\.com\.au$ [NC]
+RewriteRule ^(.*)$ https://computerrepairsfast.com.au/$1 [R=301,L]
+
+# Enforce HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# ==============================================================================
+# 2. Legacy GSC URL Preservation & 301 Mapping
+# Protects every single backlink and indexed page from 404 errors!
+# ==============================================================================
+
+# Golden Page 1 asset: Keep root path active
+RewriteRule ^what-is-the-most-expensive-thing-to-repair-on-a-laptop/?$ /what-is-the-most-expensive-thing-to-repair-on-a-laptop.html [L]
+
+# Services Hub Page
+RewriteRule ^services/?$ /services/index.html [L]
+
+# Screen Repair GSC Pages (5.7k impressions)
+RewriteRule ^how-much-does-it-cost-to-repair-a-laptop-screen-in-brisbane/?$ /services/laptop-screen-repairs.html [R=301,L]
+RewriteRule ^how-much-does-it-cost-to-fix-laptop-screen/?$ /services/laptop-screen-repairs.html [R=301,L]
+RewriteRule ^laptop-screen-repairs/?$ /services/laptop-screen-repairs.html [R=301,L]
+RewriteRule ^laptop-screen-repairs-cost/?$ /services/laptop-screen-repairs.html [R=301,L]
+RewriteRule ^how-do-i-know-if-my-laptop-screen-is-broken/?$ /services/laptop-screen-repairs.html [R=301,L]
+
+# Battery Replacement
+RewriteRule ^laptop-battery-replacement/?$ /services/laptop-battery-replacement.html [R=301,L]
+RewriteRule ^battery-replacement/?$ /services/laptop-battery-replacement.html [R=301,L]
+
+# Liquid Damage & Spill Repairs
+RewriteRule ^liquid-damage-repairs/?$ /services/liquid-damage-repairs.html [R=301,L]
+
+# Scam & Virus Removal
+RewriteRule ^scam-virus-removal/?$ /services/scam-virus-removal.html [R=301,L]
+
+# Data Recovery GSC Pages (4.2k impressions)
+RewriteRule ^quick-data-recovery-brisbane/?$ /services/data-recovery.html [R=301,L]
+RewriteRule ^data-recovery/?$ /services/data-recovery.html [R=301,L]
+
+# Gaming & Brand Repairs GSC Pages (2.3k - 2.8k impressions)
+RewriteRule ^gaming-computer-repairs-near-me/?$ /services/gaming-pc-repairs.html [R=301,L]
+RewriteRule ^gaming-pc-repairs/?$ /services/gaming-pc-repairs.html [R=301,L]
+RewriteRule ^dell-computer-repairs-near-me/?$ /services/dell-laptop-repairs.html [R=301,L]
+RewriteRule ^dell-laptop-repairs/?$ /services/dell-laptop-repairs.html [R=301,L]
+RewriteRule ^hp-computer-repairs-near-me/?$ /services/hp-laptop-repairs.html [R=301,L]
+RewriteRule ^hp-laptop-repairs/?$ /services/hp-laptop-repairs.html [R=301,L]
+RewriteRule ^mac-repairs/?$ /services/ [R=301,L]
+
+# Suburb & Location Pages (GSC rankings for West End, Toowong, East Brisbane)
+RewriteRule ^toowong-computer-repairs-4066-qld/?$ /locations/toowong.html [R=301,L]
+RewriteRule ^computer-repairs-toowong/?$ /locations/toowong.html [R=301,L]
+RewriteRule ^computer-repairs-east-brisbane/?$ /locations/east-brisbane.html [R=301,L]
+RewriteRule ^computer-repairs-west-end/?$ /locations/west-end.html [R=301,L]
+
+# Cleanup 67 "Crawled - currently not indexed" & Soft 404 dummy pages
+RewriteRule ^595-2/?$ / [R=301,L]
+RewriteRule ^sample-page/?$ / [R=301,L]
+RewriteRule ^fix-my-computer-near-me/?$ / [R=301,L]
+RewriteRule ^best-computer-repairs-near-me/?$ / [R=301,L]
+RewriteRule ^best-rated-computer-repairs/?$ / [R=301,L]
+RewriteRule ^expert-computer-same-day-repairs/?$ / [R=301,L]
+RewriteRule ^same-day-computer-repairs-brisbane/?$ / [R=301,L]
+RewriteRule ^local-computer-repairs/?$ / [R=301,L]
+RewriteRule ^mobile-computer-repairs-brisbane/?$ / [R=301,L]
+RewriteRule ^onsite-pc-laptop-repairs/?$ / [R=301,L]
+RewriteRule ^home-computer-repairs/?$ / [R=301,L]
+RewriteRule ^business-computer-repairs/?$ / [R=301,L]
+RewriteRule ^office-computer-repairs/?$ / [R=301,L]
+RewriteRule ^it-support-brisbane/?$ / [R=301,L]
+RewriteRule ^brisbane-computer-repair-pricing/?$ /#pricing [R=301,L]
+RewriteRule ^brisbane-computer-repair-faq/?$ /#faq [R=301,L]
+RewriteRule ^about-brisbane-laptop-repair/?$ / [R=301,L]
+RewriteRule ^pc-laptop-repair-brisbane-services/?$ /#services [R=301,L]
+RewriteRule ^contact/?$ /contact.html [L]
+RewriteRule ^faq/?$ /faq.html [L]
+
+# Clean URL handling (omit .html extension and trailing slash)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.*)/$ $1.html [L]
+
+</IfModule>
+
+# Browser Caching for 100/100 Core Web Vitals
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpg "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 year"
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType image/webp "access plus 1 year"
+ExpiresByType image/svg+xml "access plus 1 year"
+ExpiresByType text/css "access plus 1 month"
+ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# ==============================================================================
+# Gzip / Deflate Compression for High-Speed Delivery (Core Web Vitals)
+# ==============================================================================
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml application/xml application/xhtml+xml
+  AddOutputFilterByType DEFLATE font/ttf font/otf font/woff font/woff2
+</IfModule>
+
+# ==============================================================================
+# HTTP Cache-Control & Security Headers
+# ==============================================================================
+<IfModule mod_headers.c>
+  <FilesMatch "\.(ico|jpg|jpeg|png|gif|webp|svg|woff|woff2|ttf|eot)$">
+    Header set Cache-Control "max-age=31536000, public, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "max-age=2592000, public"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
