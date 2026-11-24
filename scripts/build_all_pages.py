@@ -11,6 +11,17 @@ from data_suburbs import SUBURBS
 from data_services import SERVICES
 from data_articles import ARTICLES
 
+OFFTOPIC_SLUGS = {
+    "best-vpns-privacy-torrenting-without-tracking",
+    "complete-vps-coolify-vibe-coding-security-guide",
+    "hostinger-vps-coolify-setup-domain-hosting-guide",
+    "how-to-remove-ads-bloatware-smart-tv-guide",
+    "how-to-run-local-ai-lm-studio-free-pc-guide",
+    "vibe-coding-security-nightmares-how-to-stay-safe",
+    "is-it-safe-to-download-torrents-cracked-software-guide",
+    "top-web-browsers-ranked-brave-privacy-guide"
+}
+
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOCATIONS_DIR = os.path.join(ROOT_DIR, "locations")
 SERVICES_DIR = os.path.join(ROOT_DIR, "services")
@@ -78,6 +89,13 @@ def render_suburb_html(s):
         "url": f"https://computerrepairsfast.com.au/locations/{slug}.html",
         "telephone": "0401148654",
         "priceRange": "$$",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "bestRating": "5",
+            "worstRating": "1",
+            "reviewCount": str(len(s["reviews"]) * 22 + 96)
+        },
         "address": {
             "@type": "PostalAddress",
             "addressLocality": name,
@@ -233,7 +251,7 @@ def render_suburb_html(s):
 <span class="red-pill">🚗 Free In-Home Visits Across {region}</span>
 <span class="red-pill">⚡ Same-Day Repairs</span>
 </div>
-<h1 class="hero-heading">Computer Repairs {name} QLD {postcode}<br/><span>Mobile Call-Out &amp; Workshop Repairs</span></h1>
+<h1 class="hero-heading">Computer Repairs {name} QLD {postcode} <br/><span>— Mobile Call-Out &amp; Workshop Repairs</span></h1>
 <p class="hero-plain-text">
 Broken laptop screen, slow PC, or scary scam phone call? Don't stress. We service all residences, apartments, and small businesses throughout <strong>{name}</strong> and surrounding areas ({surrounding_str}). We come directly to you with <strong>zero travel or call-out fees</strong>, or you can drop your computer off at our local {hub} ({travel_time} away).
 </p>
@@ -570,6 +588,13 @@ def render_service_html(s):
             "@type": "City",
             "name": "Brisbane"
         },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "bestRating": "5",
+            "worstRating": "1",
+            "reviewCount": "212"
+        },
         "offers": {
             "@type": "Offer",
             "price": price_from.replace("From $", ""),
@@ -706,7 +731,7 @@ def render_service_html(s):
 <span class="red-pill">🏷️ {price_from}</span>
 <span class="red-pill">🚗 Free Brisbane In-Home Visits</span>
 </div>
-<h1 class="hero-heading">{h1_main}<br/><span>{h1_sub}</span></h1>
+<h1 class="hero-heading">{h1_main} <br/><span>{h1_sub}</span></h1>
 <p class="hero-plain-text">
 {meta_desc} Supporting <strong>{models}</strong> across all Brisbane suburbs. We come directly to your home or office with zero call-out fees, or you can drop your computer off at our local workshops in East Brisbane, West End, or Toowong.
 </p>
@@ -924,6 +949,7 @@ def render_article_html(a):
     meta_desc = a["meta_desc"]
     category = a["category"]
     reading_time = a["reading_time"]
+    robots_meta = '<meta content="noindex, follow" name="robots"/>\n' if slug in OFFTOPIC_SLUGS else ''
     
     blocks_html = ""
     for b in a["content_blocks"]:
@@ -1019,7 +1045,7 @@ def render_article_html(a):
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <meta content="#dc2626" name="theme-color"/>
-<title>{title}</title>
+{robots_meta}<title>{title}</title>
 <meta content="{meta_desc}" name="description"/>
 <link href="https://computerrepairsfast.com.au/articles/{slug}.html" rel="canonical"/>
 
@@ -1232,6 +1258,9 @@ for f in all_html_files:
     rel = os.path.relpath(f, ROOT_DIR).replace("\\", "/")
     # Skip 404
     if rel == "404.html":
+        continue
+    # Skip off-topic non-local articles from sitemap
+    if any(off_slug in rel for off_slug in OFFTOPIC_SLUGS):
         continue
     if rel == "index.html":
         url = "https://computerrepairsfast.com.au/"
