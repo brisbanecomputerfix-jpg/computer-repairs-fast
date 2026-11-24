@@ -1,0 +1,45 @@
+# global options
+{
+	admin off
+	persist_config off
+	auto_https off
+	log {
+		format json
+	}
+	servers {
+		trusted_proxies static private_ranges 100.0.0.0/8
+	}
+}
+
+:{$PORT:3000} {
+	log {
+		format json
+	}
+
+	root * /srv
+
+	encode gzip zstd
+
+	# Global Security Headers
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+
+	@static {
+		path /css/* /js/* /images/* /favicon.* /apple-touch-icon.* /icon-*.png
+	}
+	header @static Cache-Control "public, max-age=31536000, immutable"
+
+	@html {
+		path *.html /sitemap.xml /robots.txt
+	}
+	header @html Cache-Control "public, max-age=0, must-revalidate"
+
+	file_server
+
+	try_files {path} {path}/index.html {path}.html /index.html
+}
